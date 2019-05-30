@@ -2,8 +2,20 @@ input {
   border: solid 1px black;
 }
 
-.container {
+main{
+  width: 1000px;
+  margin: 0 auto;
+  background-color: #ddd;
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
 
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .info-container {
@@ -11,7 +23,10 @@ input {
 }
 
 .item {
-
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
 }
 
 .row {
