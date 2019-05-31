@@ -1,4 +1,4 @@
-let delete_Items, calculatePricesBtn, row_items, products;
+let delete_Items, calculatePricesBtn, row_items, productos;
 
 function deleteItem(e) {
   target = e.target;
@@ -25,7 +25,20 @@ function createNewItem() {}
 
 function calculatePrices() {
   console.log('Calculando total');
+}
 
+function loadJSON(callback) {
+  let xobj = new XMLHttpRequest();
+  xobj.overrideMimeType('application/json');
+  xobj.open('GET', 'data/products.json', true); // Replace 'my_data' with the path to your file
+  xobj.onreadystatechange = function() {
+    if (xobj.readyState == 4 && xobj.status == '200') {
+      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+      console.log(xobj.responseText);
+      callback(xobj.responseText);
+    }
+  };
+ xobj.send(null);
 }
 
 addEventListener('load', () => {
@@ -34,11 +47,11 @@ addEventListener('load', () => {
   for (let item of this.delete_Items) {
     console.log(item.parentNode);
   }
-  //   delete_Items.forEach(element => {
-  //     console.log(element.parentNode)
-  //   });
   this.calculatePricesBtn = document.getElementsByClassName('btn')[0];
   this.calculatePricesBtn.addEventListener('onclick', this.calculatePrices());
   this.row_items = [];
-  this.products = [];
+  // LOAD Products from JSON file.
+  loadJSON(response => {
+    productos = JSON.parse(response);
+  });
 });
