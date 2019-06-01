@@ -9,33 +9,42 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
     />
     <link rel="stylesheet" href="./css/style.css" />
-    <!-- LOAD SCRIPTS -->
-    <script type="text/javascript" src="./data/products.json"></script>
-    <script type="text/javascript" src="./js/carrito.js"></script>
     <title>Shopping cart</title>
   </head>
   <body>
-    <main>
+    <header>
       <h1>Fans Merchandising Shop</h1>
+    </header>
+    <main>
       <div class="items">
-        <div class="item">
-          <div class="name"><span>name</span></div>
+        <!-- <div class="item">
+            <select class="name">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+            <div class="name"><span>name</span></div>
           <div class="unit-price"><span>1€</span></div>
           <div class="qty">
-            <label for=""></label>
-            <input class="quantity" type="text" value="0" />
+            <label for="qty">QTY:</label>
+            <input class="i-qty" name="qty" id="qty" type="text" value="0" />
           </div>
           <div class="subtotal-price"><span>1</span></div>
-          <div class="btn-delete">Delete</div>
-        </div>
+          <div class="btn btn-delete">Delete</div>
+        </div> -->
       </div>
       <div class="buttons">
-        <button class="btn">Calculate prices</button>
-        <button class="btn-addItem" onclick="addItem()">Add Item</button>
+        <button class="btn" onclick="getTotalPrice()" >Calculate prices</button>
+        <!-- <button class="btn add-item" onclick="addItem()">Add Item</button> -->
       </div>
       <div class="total-price">
-        <h2>Total Price: <span>0€</span></h2>
+        <h2>Total Price: <span id="total-amount">0€</span></h2>
       </div>
     </main>
+    <!-- LOAD SCRIPTS -->
+
+    <script type="text/javascript" src="./data/products.js"></script>
+    <script type="text/javascript" src="./js/carrito.js"></script>
   </body>
 </html>
