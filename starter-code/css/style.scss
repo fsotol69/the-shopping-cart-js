@@ -4,10 +4,42 @@ input {
 
 header {
   width: 1000px;
+  height: 2rem;
   margin: 0 auto;
+  background-color: #fff;
+  padding: 0.5rem 1rem 0rem 1rem;
+  text-align: left;
+
+  nav ul {
+    display: flex;
+    box-sizing: content-box;
+    height: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    //border: 1px solid red;
+
+    li {
+      display: inline;
+      //border: 1px solid red;
+      padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 3rem;
+      margin: 0 0 0 -5px;
+      background-color: #aaa;
+
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    }
+  }
+}
+
+#selected{
   background-color: #ddd;
-  padding: 1rem;
-  text-align: center;
+  box-shadow: 1px 0 #333;
+  z-index: 10;
 }
 
 main {
@@ -21,62 +53,68 @@ main {
 }
 
 .items {
+  width: 100%;
   padding: 1rem;
   display: flex;
   flex-flow: column nowrap;
 }
 
-.info-container {
-}
-
 .item {
-  width: 100%;
+  width: 80%;
+  margin: 0.2rem auto;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  border: 1px solid red;
+  //border: 1px solid red;
   padding: 0.5rem;
 
-  div {
-    padding: 0 1rem;
-    margin: 0 0.5rem;
-  }
-
   .name {
-    width: 10rem;
-    border: 1px solid red;
+    width: 20rem;
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 0.5rem;
+    //border: 1px solid red;
     margin: 0 1rem;
   }
+
   .unit-price {
-    width: 5rem;
-    border: 1px solid red;
+    width: 6rem;
+    height: 2rem;
+    //border: 1px solid red;
     margin: 0 1rem;
     text-align: center;
+    line-height: 2;
   }
 
-   .i-qty{
+  .qty {
     width: 3rem;
-    border: 1px solid red;
+    //border: 1px solid red;
     text-align: center;
   }
 
-  .subtotal-price{
-    width: 5rem;
-    border: 1px solid red;
+  .subtotal-price {
+    width: 7rem;
+    height: 2rem;
+    line-height: 2rem;
+    padding-right: 0.5rem;
+    //border: 1px solid red;
     text-align: right;
   }
+}
+
+.info-container {
 }
 
 .row {
 }
 
-.btn{
+.btn {
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.42857143;
+  line-height: 1.5;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -92,16 +130,21 @@ main {
   border-radius: 4px;
 }
 
-.btn{
+.btn {
   color: #fff;
   background-color: #5cb85c;
   border-color: #5cb85c;
 }
 
-.create{
-  color:#000;
+.create,
+#add-item {
+  color: #000;
   background-color: #fff;
   border-color: #fff;
+}
+
+#add-item {
+  visibility: hidden;
 }
 
 .btn-success {
@@ -114,19 +157,4 @@ main {
   color: #fff;
   background-color: #cf000f;
   border-color: #cf000f;
-}
-
-.col-xs-2 {
-}
-
-.col-xs-3 {
-}
-
-.col-xs-5 {
-}
-
-.col-xs-4 {
-}
-
-.col-xs-7 {
 }

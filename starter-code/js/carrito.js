@@ -1,18 +1,14 @@
-let delete_Items, calculatePricesBtn, row_items /*, products*/;
-
-function deleteItem(e) {
-  target = e.target;
-  console.log(target);
-}
+let row_items;
 
 function getPriceByProduct(itemNode) {}
 
 function updatePriceByProduct(productPrice, index) {}
 
 function getTotalPrice() {
-  console.log('Obteniendo importe total compra...');
+  hideNewItemCreation();
+  //console.log('Obteniendo importe total compra...');
   let subtotales = document.getElementsByClassName('subtotal-price');
-  console.log(subtotales);
+  //console.log(subtotales);
   let totalAmount = 0.0;
   for (let i = 0; i < subtotales.length; i++) {
     let subTotal = parseFloat(subtotales[i].innerText.replace('€', ''));
@@ -20,9 +16,15 @@ function getTotalPrice() {
   }
   document.getElementById('total-amount').innerHTML =
     totalAmount.toFixed(2) + '€';
-  //console.log(total_Amount);
-  //for(let subtotal in subtotales) console.log(subtotal.innerText);
-  //console.log(document.getElementsByClassName('subtotal-price').innerText);
+}
+
+function hideNewItemCreation() {
+  document.getElementById('new-item').style.visibility = 'hidden';
+  document.getElementById('add-item').style.visibility = 'visible';
+}
+function showNewItemCreation() {
+  document.getElementById('new-item').style.visibility = 'visible';
+  document.getElementById('add-item').style.visibility = 'hidden';
 }
 
 function createQuantityInput() {
@@ -45,16 +47,20 @@ function createItemAmount() {
 
 function updateItemRowAmount(e) {
   let productName = e.target.parentNode.childNodes[0].innerText;
-  console.log(e.target.parentNode.childNodes);
   let product = searchProduct(productName);
   let qty = e.target.parentNode.childNodes[2].value;
   let amount = product.price * qty;
-  console.log('Item Price : ' + product.price);
-  console.log('Item Quantity : ' + qty);
-  console.log('Total Item Amount : ' + amount);
-  console.log(product);
-  console.log(e.target.parentNode.parentNode);
   e.target.parentNode.childNodes[3].innerText = amount.toFixed(2) + '€';
+}
+
+function deleteItem(e) {
+  let itemContainerId = e.target.parentNode.id;
+  if (itemContainerId !== undefined && row_items.includes(itemContainerId)) {
+    let domElement = document.getElementById(itemContainerId);
+    domElement.parentNode.removeChild(domElement);
+    let index = row_items.indexOf(itemContainerId);
+    row_items.splice(index, 1);
+  }
 }
 
 function createDeleteButton() {
@@ -62,12 +68,7 @@ function createDeleteButton() {
   let button = document.createElement('button');
   button.className = 'btn btn-delete';
   button.innerHTML = 'Delete';
-  button.onclick = e => {
-    let itemName = e.target.parentNode.childNodes[0].value;
-    console.log(e.target.parentNode.childNodes[0].value);
-    let dataType = searchProduct(itemName);
-    console.log(dataType);
-  };
+  button.onclick = deleteItem;
   return button;
 }
 
@@ -82,22 +83,29 @@ function createQuantityNode() {
 }
 
 function createItemNode(dataType) {
-  let newItemRow = createNewItemRow(dataType.name, dataType.price);
-  let qtyItem = createQuantityInput();
-  console.log(qtyItem);
-  newItemRow.appendChild(qtyItem);
-  let amountItem = createItemAmount();
-  newItemRow.appendChild(amountItem);
-  let deleteButton = createDeleteButton();
-  newItemRow.appendChild(deleteButton);
-  //console.log(document.getElementsByClassName('items'));
-  document.getElementsByClassName('items')[0].appendChild(newItemRow);
+  let newItemName = dataType.name;
+  if (!row_items.includes(newItemName)) {
+    let newItemRow = createNewItemRow(dataType.name, dataType.price);
+    let qtyItem = createQuantityInput();
+    console.log(qtyItem);
+    newItemRow.appendChild(qtyItem);
+    let amountItem = createItemAmount();
+    newItemRow.appendChild(amountItem);
+    let deleteButton = createDeleteButton();
+    newItemRow.appendChild(deleteButton);
+    let element = document.getElementById('new-item');
+    element.parentNode.insertBefore(newItemRow, element);
+    row_items.push(newItemName);
+  } else {
+    alert('Este producto ya existe en la lista!');
+  }
 }
 
 function createNewItemRow(itemName, itemUnitPrice) {
   //<div class="item">
   let itemContainer = document.createElement('div');
   itemContainer.className = 'item';
+  itemContainer.id = itemName;
   //<div class="name"><span>name</span></div>
   let item_Name = document.createElement('div');
   item_Name.className = 'name';
@@ -122,7 +130,8 @@ function newItemRowExists() {
 function createNewItem() {
   //<div class="new-item">
   let itemContainer = document.createElement('div');
-  itemContainer.className = 'item new-item';
+  itemContainer.className = 'item';
+  itemContainer.id = 'new-item';
   //items selector
   let selector = createItemsSelector();
   selector.onchange = updateSelectedItemPrice;
@@ -140,16 +149,14 @@ function createNewItem() {
   button.innerHTML = 'Create';
   button.onclick = e => {
     let itemName = e.target.parentNode.childNodes[0].value;
-    console.log(e.target.parentNode.childNodes[0].value);
     let dataType = searchProduct(itemName);
-    console.log(dataType);
-    createItemNode(dataType);
-    //console.log(e.target.parentNode.childNodes[1].childNodes[0].innerHTML);
+    if (dataType !== undefined) {
+      createItemNode(dataType);
+    } else {
+      alert('Debes elegir un producto de la lista!');
+    }
   };
-  // button.addEventListener("clik", function(){
-  //   console.log("Nuevo Item con listener");
-  //   console.log("Datos del padre : " + itemContainer);
-  // });
+
   itemContainer.appendChild(button);
   return itemContainer;
 }
@@ -159,121 +166,35 @@ function updateSelectedItemPrice(e) {
     if (product.name === itemName)
       e.target.nextSibling.childNodes[0].innerHTML = product.price + '€';
   });
-  console.log('Datos elemento : ' + e.target.className);
-  console.log('Seleccion : ' + e.target.value);
-  console.log('Seleccion : ' + e.target.nextSibling.innerHTML);
-  console.log('Seleccion : ' + e.target.nextSibling.childNodes[0].innerHTML);
 }
 function searchProduct(productName) {
-  console.log(productName);
   for (let i = 0; i < products.length; i++) {
     if (products[i].name === productName) return products[i];
   }
 }
 
-function infoEventTesting(e) {
-  console.log('Nuevo Item con listener');
-  console.log('Datos elemento : ' + e.target.className);
-  console.log('Datos padre : ' + e.target.parentNode.className);
-}
-
-function calculatePrices() {
-  console.log('Calculando total');
-}
-
-/*
-function loadJSON(callback) {
-  let xobj = new XMLHttpRequest();
-  xobj.overrideMimeType('application/json');
-  xobj.open('GET', 'data/products.json', true); // Replace 'my_data' with the path to your file
-  xobj.onreadystatechange = function() {
-    if (xobj.readyState == 4 && xobj.status == '200') {
-      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-      callback(xobj.responseText);
-    }
-  };
-  xobj.send(null);
-}
-*/
-
 addEventListener('load', () => {
-  let itemsContainer = document.getElementsByClassName('items');
-  // this.calculatePricesBtn = document.getElementsByClassName('btn')[0];
-  // this.calculatePricesBtn.addEventListener('onclick', this.calculatePrices());
   row_items = [];
-  //products = [];
-  // LOAD Products from JSON file.
-  /*
-  loadJSON(response => {
-    let json_products = JSON.parse(response);
-    json_products.forEach(element => {
-      products.push(element);
-    });
-    //console.log(products);
-  });
-  */
-  console.log(products);
-  let newItem = createNewItem();
-  itemsContainer[0].appendChild(newItem);
+  // let menu = document.getElementById('menu');
+  loadShop();
 });
-
-function renderItem(item) {
-  //<div class="item">
-  let itemContainer = document.createElement('div');
-  itemContainer.className = 'item';
-  itemContainer.id = item._id;
-  //<div class="name"><span>name</span></div>
-  let itemName = document.createElement('div');
-  itemName.className = 'name';
-  let spanName = document.createElement('span');
-  spanName.innerHTML = item.getName;
-  itemName.appendChild(spanName);
-  itemContainer.appendChild(itemName);
-  //<div class="unit-price"><span>1€</span></div>
-  let itemPrice = document.createElement('div');
-  itemPrice.className = 'unit-price';
-  let spanPrice = document.createElement('span');
-  spanPrice.innerHTML = item.getPrice + '€';
-  itemPrice.appendChild(spanPrice);
-  itemContainer.appendChild(itemPrice);
-  //<div class="qty">
-  //  <label for=""></label>
-  //  <input class="quantity" type="text" value="0" />
-  //</div>
-  let itemQTY = document.createElement('div');
-  itemQTY.className = 'qty';
-  let itemLabel = document.createElement('label');
-  let itemInput = document.createElement('input');
-  itemInput.type = 'text';
-  itemInput.value = item.getUnits;
-  itemQTY.appendChild(itemLabel);
-  itemQTY.appendChild(itemInput);
-  item.itemContainer.appendChild(itemQTY);
-  //<div class="subtotal-price"><span>1</span></div>
-  let itemAmount = document.createElement('div');
-  itemAmount.className = 'subtotal-price';
-  let spanAmount = document.createElement('span');
-  spanAmount.innerHTML = getAmount + '€';
-  itemAmount.appendChild(spanAmount);
-  itemContainer.appendChild(itemAmount);
-  //<div class="btn-delete">Delete</div>
-  let deleteButton = document.createElement('div');
-  deleteButton.className = 'btn-delete';
-  itemContainer.appendChild(deleteButton);
-  return itemContainer;
-}
 
 function createItemsSelector() {
   let selector = document.createElement('select');
-  //selector.value = 'Select item';
+  selector.value = 'Select item';
   selector.className = 'name';
-  console.log(products.length);
   let options = [];
   for (let i = 0; i < products.length; i++) {
     let item = products[i];
-    console.log(item.name);
     options.push(item.name);
   }
+
+  let default_opt = document.createElement('option');
+  default_opt.text = 'Choose product';
+  default_opt.selected = true;
+  default_opt.disabled = true;
+  default_opt.hidden = true;
+  selector.add(default_opt);
 
   for (let i = 0; i < options.length; i++) {
     let opt = options[i];
@@ -282,4 +203,44 @@ function createItemsSelector() {
     selector.add(option);
   }
   return selector;
+}
+
+function loadShop() {
+  let container = document.getElementsByTagName('main')[0];
+  container.innerHTML = '';
+  // Main section title
+  let shopTitle = document.createElement('h1');
+  shopTitle.innerHTML = 'Fans Merchandising Shop';
+  container.appendChild(shopTitle);
+  // Items
+  let items = document.createElement('div');
+  items.className = 'items';
+  // Creational new item
+  let newItem = createNewItem();
+  items.appendChild(newItem);
+  container.appendChild(items);
+  // Buttons
+  let buttons = document.createElement('div');
+  buttons.className = 'buttons';
+  // Buton totalPrice
+  let totalPriceButton = document.createElement('button');
+  totalPriceButton.className = 'btn';
+  totalPriceButton.onclick = getTotalPrice;
+  totalPriceButton.innerHTML = 'Calculate prices';
+  buttons.appendChild(totalPriceButton);
+  // Button AddItem
+  let addItemButton = document.createElement('button');
+  addItemButton.className = 'btn';
+  addItemButton.id = 'add-item';
+  addItemButton.onclick = showNewItemCreation;
+  addItemButton.innerHTML = 'Add Item';
+  buttons.appendChild(addItemButton);
+  container.appendChild(buttons);
+  // Total price
+  let divTotalPrice = document.createElement('div');
+  divTotalPrice.className = 'total-price';
+  let totalPriceTitle = document.createElement('h2');
+  totalPriceTitle.innerHTML = 'Total Price: <span id="total-amount">0€</span>';
+  divTotalPrice.appendChild(totalPriceTitle);
+  container.appendChild(divTotalPrice);
 }

@@ -9,28 +9,33 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
     />
     <link rel="stylesheet" href="./css/style.css" />
-    <!-- LOAD SCRIPTS -->
-    <script type="text/javascript" src="./data/products.json"></script>
-    <script type="text/javascript" src="./js/script.js"></script>
     <title>Shopping cart</title>
   </head>
   <body>
+    <!-- <header>
+      <nav>
+        <ul id="menu">
+          <li onclick="loadShop()"><a class="tab" href="">Shop</a></li>
+          <li onclick="loadStocks()"><a class="tab" href="">Stock</a></li>
+        </ul>
+      </nav>
+    </header> -->
     <main>
-      <h1>Fans Merchandising Shop</h1>
-      <div class="item">
-        <div class="name"><span>name</span></div>
-        <div class="unit-price"><span>1€</span></div>
-        <div class="qty">
-          <label for=""></label>
-          <input class="quantity" type="text" value="0" />
-        </div>
-        <div class="subtotal-price"><span>1</span></div>
-        <div class="btn-delete">Delete</div>
+      <!-- <h1>Fans Merchandising Shop</h1>
+      <div class="items"></div>
+      <div class="buttons">
+        <button class="btn" onclick="getTotalPrice()">Calculate prices</button>
+        <button class="btn" id="add-item" onclick="showNewItemCreation()">
+          Add Item
+        </button>
       </div>
-      <button class="btn">Calculate prices</button>
       <div class="total-price">
-        <h2>Total Price: <span>0€</span></h2>
-      </div>
+        <h2>Total Price: <span id="total-amount">0€</span></h2>
+      </div> -->
     </main>
+    <!-- LOAD SCRIPTS -->
+
+    <script type="text/javascript" src="./data/products.js"></script>
+    <script type="text/javascript" src="./js/carrito.js"></script>
   </body>
 </html>

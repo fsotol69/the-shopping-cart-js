@@ -4,37 +4,10 @@ input {
 
 header {
   width: 1000px;
-  height: 2rem;
   margin: 0 auto;
-  background-color: #fff;
-  padding: 0.5rem 1rem 0rem 1rem;
-  text-align: left;
-}
-header nav ul {
-  display: flex;
-  box-sizing: content-box;
-  height: 2rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-header nav ul li {
-  display: inline;
-  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 3rem;
-  margin: 0 0 0 -5px;
-  background-color: #aaa;
-}
-header nav ul li a {
-  text-decoration: none;
-  color: #333;
-}
-
-#selected {
   background-color: #ddd;
-  box-shadow: 1px 0 #333;
-  z-index: 10;
+  padding: 1rem;
+  text-align: center;
 }
 
 main {
@@ -55,36 +28,36 @@ main {
 }
 
 .item {
-  width: 80%;
-  margin: 0.2rem auto;
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  border: 1px solid red;
   padding: 0.5rem;
 }
-.item .name {
-  width: 20rem;
-  height: 2rem;
-  line-height: 2rem;
-  padding-left: 0.5rem;
+
+.name {
+  width: 10rem;
+  border: 1px solid red;
   margin: 0 1rem;
 }
-.item .unit-price {
+
+.unit-price {
   width: 6rem;
-  height: 2rem;
+  border: 1px solid red;
   margin: 0 1rem;
   text-align: center;
-  line-height: 2;
 }
-.item .qty {
+
+.qty {
   width: 3rem;
+  border: 1px solid red;
   text-align: center;
 }
-.item .subtotal-price {
-  width: 7rem;
-  height: 2rem;
-  line-height: 2rem;
-  padding-right: 0.5rem;
+
+.subtotal-price {
+  width: 5rem;
+  border: 1px solid red;
   text-align: right;
 }
 
@@ -94,7 +67,7 @@ main {
   margin-bottom: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.42857143;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -116,15 +89,10 @@ main {
   border-color: #5cb85c;
 }
 
-.create,
-#add-item {
+.create {
   color: #000;
   background-color: #fff;
   border-color: #fff;
-}
-
-#add-item {
-  visibility: hidden;
 }
 
 .btn-success {
